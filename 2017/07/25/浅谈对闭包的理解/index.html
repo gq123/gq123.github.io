@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="什么是闭包官方解释：所谓“闭包”，指的是一个拥有许多变量和绑定了这些变量的环境的表达式（通常是一个函数），因而这些变量也是该表达式的一部分。咋一看，这句话晦涩难懂，一脸懵逼。直接上代码，便于理解12345678910function test( )&amp;#123;                                 var a = 0;            return function">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浅谈对闭包的理解">
+<meta property="og:url" content="http://yoursite.com/2017/07/25/浅谈对闭包的理解/index.html">
+<meta property="og:site_name" content="GQ">
+<meta property="og:description" content="什么是闭包官方解释：所谓“闭包”，指的是一个拥有许多变量和绑定了这些变量的环境的表达式（通常是一个函数），因而这些变量也是该表达式的一部分。咋一看，这句话晦涩难懂，一脸懵逼。直接上代码，便于理解12345678910function test( )&amp;#123;                                 var a = 0;            return function">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://otmv3wwxg.bkt.clouddn.com/20161215225817750.jpeg">
+<meta property="og:updated_time" content="2017-07-25T07:06:15.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="浅谈对闭包的理解">
+<meta name="twitter:description" content="什么是闭包官方解释：所谓“闭包”，指的是一个拥有许多变量和绑定了这些变量的环境的表达式（通常是一个函数），因而这些变量也是该表达式的一部分。咋一看，这句话晦涩难懂，一脸懵逼。直接上代码，便于理解12345678910function test( )&amp;#123;                                 var a = 0;            return function">
+<meta name="twitter:image" content="http://otmv3wwxg.bkt.clouddn.com/20161215225817750.jpeg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/07/25/浅谈对闭包的理解/"/>
+
+
+
+
+
+  <title>浅谈对闭包的理解 | GQ</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">GQ</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/25/浅谈对闭包的理解/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="光强">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://www.160.com/uploadfiles/20160809/1470724372736479.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="GQ">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">浅谈对闭包的理解</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-25T14:46:10+08:00">
+                2017-07-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="什么是闭包"><a href="#什么是闭包" class="headerlink" title="什么是闭包"></a>什么是闭包</h3><p>官方解释：所谓“闭包”，指的是一个拥有许多变量和绑定了这些变量的环境的表达式（通常是一个函数），因而这些变量也是该表达式的一部分。咋一看，这句话晦涩难懂，一脸懵逼。直接上代码，便于理解<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params"> </span>)</span>&#123;                       </div><div class="line">          <span class="keyword">var</span> a = <span class="number">0</span>;  </div><div class="line">          <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"> </span>)</span>&#123;   </div><div class="line">               a++;  </div><div class="line">               alert(a);  </div><div class="line">      &#125;   </div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> atest = <span class="keyword">new</span> test( ); <span class="comment">//引用返回的函数  </span></div><div class="line">atest( );  <span class="comment">// 1  </span></div><div class="line">atest( ); <span class="comment">// 2</span></div></pre></td></tr></table></figure></p>
+<p>上面的代码有两个主要的地方： </p>
+<ol>
+<li>函数嵌套函数； </li>
+<li>函数test返回内部匿名函数</li>
+</ol>
+<p>根据执行结果可以发现，变量<code>a</code>一直保存在内存中，所有才会每调用一次<code>atest()</code>，返回的结果会自加1；究其原因，当执行到<code>var atest = new test()</code>时，函数<code>test</code>开始执行，完事之后，准备释放一波内存，结果返现其中返回的匿名函数应用了变量<code>a</code>，所以<code>test()</code>并不会出栈。想要更加透彻的理解这个过程，需要对js函数的作用域链比较熟悉。</p>
+<h3 id="闭包的原理"><a href="#闭包的原理" class="headerlink" title="闭包的原理"></a>闭包的原理</h3><p>如果要更加深入的了解闭包以及函数a和嵌套函数b的关系，我们需要引入另外几个概念：函数的执行环境(excution context)、活动对象(call object)、作用域(scope)、作用域链(scope chain)。以函数a从定义到执行的过程为例阐述这几个概念。 </p>
+<ol>
+<li>当定义函数<code>test</code>的时候，js解释器会将函数test的作用域链(scopechain)设置为定义test时test所在的<code>环境</code>，如果test是一个全局函数，则<code>scope chain</code>中只有window对象。 </li>
+<li>当函数test执行的时候，test会进入相应的执行环境(excutioncontext)。 </li>
+<li>在创建执行环境的过程中，首先会为test添加一个scope属性，即test的作用域，其值就为第1步中的scope chain。即<code>test.scope=test</code>的作用域链。 </li>
+<li>然后执行环境会创建一个活动对象(call object)。活动对象也是一个拥有属性的对象，但它不具有原型而且不能通过JavaScript代码直接访问。创建完活动对象后，把活动对象添加到test的作用域链的最顶端。此时test的作用域链包含了两个对象：<code>test</code>的活动对象和window对象。 </li>
+<li>下一步是在活动对象上添加一个<code>arguments</code>属性，它保存着调用函数test时所传递的参数。 </li>
+<li>最后把所有函数<code>test</code>的形参和内部的函数（暂且命名为b）的引用也添加到<code>test</code>的活动对象上。在这一步中，完成了函数b的的定义，因此如同第3步，函数b的作用域链被设置为b所被定义的环境，即test的作用域。 </li>
+</ol>
+<p>到此，整个函数<code>test</code>从定义到执行的步骤就完成了。此时test返回函数b的引用给<code>atest</code>，又函数b的作用域链包含了对函数<code>test</code>的活动对象的引用，也就是说b可以访问到<code>test</code>中定义的所有变量和函数。函数b被<code>atest</code>引用，函数b又依赖函数<code>test</code>，因此函数test在返回后不会被GC回收。</p>
+<p>当函数b执行的时候亦会像以上步骤一样。因此，执行时b的作用域链包含了3个对象：b的活动对象、test的活动对象和window对象，如下图所示：<br><img src="http://otmv3wwxg.bkt.clouddn.com/20161215225817750.jpeg" alt="Alt text"></p>
+<p>如图所示，当在函数<code>b</code>中访问一个变量的时候，搜索顺序是先搜索自身的活动对象，如果存在则返回，如果不存在将继续搜索函数<code>test</code>的活动对象，依次查找，直到找到为止。如果整个作用域链上都无法找到，则返回<code>undefined</code>。如果函数<code>b</code>存在<code>prototype</code>原型对象，则在查找完自身的活动对象后先查找自身的原型对象，再继续查找。这就是Javascript中的变量查找机制。</p>
+<h3 id="闭包的应用"><a href="#闭包的应用" class="headerlink" title="闭包的应用"></a>闭包的应用</h3><p>看一个题目：针对下面这个ul，编写js实现点击每一列的时候alert其index<br><figure class="highlight htmlbars"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">&lt;span style="font-family:KaiTi_GB2312;font-size:14px;"&gt;&lt;!DOCTYPE html&gt;  </div><div class="line">&lt;html&gt;  </div><div class="line">&lt;head lang="en"&gt;  </div><div class="line">    &lt;meta charset="UTF-8"&gt;  </div><div class="line">    &lt;title&gt;&lt;/title&gt;  </div><div class="line">    &lt;script&gt;  </div><div class="line">       window.onload =  function init()&#123;  </div><div class="line">            var lis=document.querySelectorAll("#text li");  </div><div class="line">            for(var i=0;i&lt;lis.length;i++)&#123;  </div><div class="line">                lis[i].onclick=function()&#123;  </div><div class="line">                    alert(i);  </div><div class="line">                &#125;  </div><div class="line">            &#125;  </div><div class="line">        &#125;  </div><div class="line">    &lt;/script&gt;  </div><div class="line">&lt;/head&gt;  </div><div class="line">&lt;body&gt;  </div><div class="line">&lt;ul id="text"&gt;  </div><div class="line">    &lt;li&gt;这是第一个li&lt;/li&gt;  </div><div class="line">    &lt;li&gt;这是第二个li&lt;/li&gt;  </div><div class="line">    &lt;li&gt;这是第三个li&lt;/li&gt;  </div><div class="line">&lt;/ul&gt;  </div><div class="line">&lt;/body&gt;  </div><div class="line">&lt;/html&gt;&lt;/span&gt;</div></pre></td></tr></table></figure></p>
+<p>现在要求点击每个li输出的是对应的序号而不是全是3.</p>
+<ul>
+<li><p>首先不使用闭包来做：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">window</span>.onload = <span class="function"><span class="keyword">function</span> <span class="title">init</span>(<span class="params"></span>)</span>&#123;  </div><div class="line">     <span class="keyword">var</span> lis=<span class="built_in">document</span>.querySelectorAll(<span class="string">"#text li"</span>);  </div><div class="line">     <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;lis.length;i++)&#123;  </div><div class="line">         lis[i].onclick=<span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;  </div><div class="line">             <span class="comment">//获取事件源对象  </span></div><div class="line">             <span class="keyword">var</span> src=event.srcElement||event.target();  </div><div class="line">             <span class="comment">//遍历lis数组  </span></div><div class="line">             <span class="keyword">for</span>(<span class="keyword">var</span> n=<span class="number">0</span>;n&lt;lis.length;n++)&#123;  </div><div class="line">                 <span class="comment">//判断数组中那个元素等于src  </span></div><div class="line">                 <span class="keyword">if</span>(lis[n]==src)&#123;  </div><div class="line">                     <span class="comment">//输入当前下标  </span></div><div class="line">                     alert(n);  </div><div class="line">                 &#125;  </div><div class="line">             &#125;  </div><div class="line">         &#125;  </div><div class="line">     &#125;  </div><div class="line"> &#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>使用闭包来实现：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">window</span>.onload = <span class="function"><span class="keyword">function</span> <span class="title">init</span>(<span class="params"></span>)</span>&#123;  </div><div class="line">        <span class="keyword">var</span> lis=<span class="built_in">document</span>.querySelectorAll(<span class="string">"#text li"</span>);  </div><div class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;lis.length;i++)&#123;  </div><div class="line">            lis[i].onclick=(<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;  </div><div class="line">                <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;  </div><div class="line">                    alert(e);  </div><div class="line">                &#125;;  </div><div class="line">            &#125;)(i)  </div><div class="line">        &#125;  </div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="实现思路"><a href="#实现思路" class="headerlink" title="实现思路"></a>实现思路</h4><ol>
+<li>首先在遍历数组进行绑定<code>onclick</code>事件的时候，把当前的<code>i</code>传入事件函数中，并保存下来了。</li>
+<li>把换行去掉后，在看看当前绑定的函数<code>lis.onclick=(function(e){return function(){alert(i);};})(i)</code></li>
+<li>当点击对应<code>li</code>元素的时候，事件函数返回一个<code>function(){alert(i);}</code>这样的方法。</li>
+<li>但因为外层的<code>function</code>是一个自调函数，所以实际上应该是这样的<code>(function(){alert(i);})(i)</code></li>
+<li>所以输出的结果就是对应li数组中的下标。</li>
+</ol>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/24/import-require/" rel="next" title="import & require">
+                <i class="fa fa-chevron-left"></i> import & require
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://www.160.com/uploadfiles/20160809/1470724372736479.png"
+               alt="光强" />
+          <p class="site-author-name" itemprop="name">光强</p>
+           
+              <p class="site-description motion-element" itemprop="description">心有猛虎，细嗅蔷薇</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是闭包"><span class="nav-number">1.</span> <span class="nav-text">什么是闭包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#闭包的原理"><span class="nav-number">2.</span> <span class="nav-text">闭包的原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#闭包的应用"><span class="nav-number">3.</span> <span class="nav-text">闭包的应用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#实现思路"><span class="nav-number">3.1.</span> <span class="nav-text">实现思路</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">光强</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
