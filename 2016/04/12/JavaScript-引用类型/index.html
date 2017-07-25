@@ -100,7 +100,7 @@
 <meta property="og:site_name" content="GQ">
 <meta property="og:description" content="Object对象创建Object对象:1234567var person = new Object(); var person = &amp;#123;	Person.name = “guoliang”; name : “guoliang”,		Person.age = 20; age : 20&amp;#125;; 另外属性名也可以使用字符串，第二种属于对象字面量表示法 访问对象属性可以使用”.”或“[ ]”，">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-07-24T12:00:03.000Z">
+<meta property="og:updated_time" content="2017-07-25T07:58:55.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaScript 引用类型">
 <meta name="twitter:description" content="Object对象创建Object对象:1234567var person = new Object(); var person = &amp;#123;	Person.name = “guoliang”; name : “guoliang”,		Person.age = 20; age : 20&amp;#125;; 另外属性名也可以使用字符串，第二种属于对象字面量表示法 访问对象属性可以使用”.”或“[ ]”，">
@@ -359,10 +359,12 @@
 <p><code>lastIndex()</code>//从后向前</p>
 <p><code>every();filter();forEach();map();some()</code>//迭代方法</p>
 <p><code>reduce(); reduceRight()</code>//缩小方法</p>
-<h3 id="Data类型"><a href="#Data类型" class="headerlink" title="Data类型"></a>Data类型</h3><p>自UTC 1970年1月1日午夜（零时）起的毫秒数保存的日期。</p>
-<p>Data.parse();<br>Data.UTC();<br>Data.now();<br>toDataString();<br>toTimeString();<br>toLocalDataString();<br>toLocalTimeString();<br>toUTCString();</p>
-<h3 id="RegExp类型"><a href="#RegExp类型" class="headerlink" title="RegExp类型"></a>RegExp类型</h3><p>ECMAScript通过RegExp类型来支持正则表达式。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> expression = <span class="regexp">/ pattern /</span> flags;</div></pre></td></tr></table></figure></p>
 </blockquote>
+<h3 id="Data类型"><a href="#Data类型" class="headerlink" title="Data类型"></a>Data类型</h3><p>自UTC 1970年1月1日午夜（零时）起的毫秒数保存的日期。</p>
+<blockquote>
+<p>Data.parse();<br>Data.UTC();<br>Data.now();<br>toDataString();<br>toTimeString();<br>toLocalDataString();<br>toLocalTimeString();<br>toUTCString();</p>
+</blockquote>
+<h3 id="RegExp类型"><a href="#RegExp类型" class="headerlink" title="RegExp类型"></a>RegExp类型</h3><p>ECMAScript通过RegExp类型来支持正则表达式。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> expression = <span class="regexp">/ pattern /</span> flags;</div></pre></td></tr></table></figure></p>
 <p>模式<code>(pattern)</code>可以使任意的简单或复杂的正则表达式 ，标志<code>(flags)</code>用来标志正则表达式的行为<code>（g:全局；i:不区分大小写 ；m:多行模式）</code>。</p>
 <p><code>exec()</code>专门为捕获数组设计，接收应用模式的字符串，返回第一个匹配项信息的数组；<code>index</code>返回位置，<code>input</code>返回字符串。</p>
 <p><code>test()</code>判断模式与该参数是否匹配，正则表达式的<code>valueof()</code> 方法返回正则表达式本身</p>
