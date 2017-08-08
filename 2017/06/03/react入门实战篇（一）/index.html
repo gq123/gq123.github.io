@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="最近实习所在部门是为公司移动架构做支持的大前端，所用的技术是react，所以自然而然要掌握react；但是老大安排新人先用vue做做业务，熟悉下公司的整个发布流程，所以作为实习生并没有太多机会去接触react的项目，只能在项目间歇期间学习下react，利用博客将自己学习的一些成果记录下来。这是我在看文档的时候，自己动手做的一个小demo，里面涉及到了大部分的基础内容，下面我拆开来一一说明 组件划分">
+<meta property="og:type" content="article">
+<meta property="og:title" content="react入门实战篇（一）">
+<meta property="og:url" content="http://yoursite.com/2017/06/03/react入门实战篇（一）/index.html">
+<meta property="og:site_name" content="GQ">
+<meta property="og:description" content="最近实习所在部门是为公司移动架构做支持的大前端，所用的技术是react，所以自然而然要掌握react；但是老大安排新人先用vue做做业务，熟悉下公司的整个发布流程，所以作为实习生并没有太多机会去接触react的项目，只能在项目间歇期间学习下react，利用博客将自己学习的一些成果记录下来。这是我在看文档的时候，自己动手做的一个小demo，里面涉及到了大部分的基础内容，下面我拆开来一一说明 组件划分">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://otmv3wwxg.bkt.clouddn.com/WX20170803-201820@2x.png">
+<meta property="og:image" content="http://otmv3wwxg.bkt.clouddn.com/1.003.png">
+<meta property="og:image" content="http://otmv3wwxg.bkt.clouddn.com/DAFA784B-6AD3-474B-9A87-316E5741DED6.png">
+<meta property="og:image" content="http://otmv3wwxg.bkt.clouddn.com/WX20170803-180847@2x.png">
+<meta property="og:updated_time" content="2017-08-07T11:42:28.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="react入门实战篇（一）">
+<meta name="twitter:description" content="最近实习所在部门是为公司移动架构做支持的大前端，所用的技术是react，所以自然而然要掌握react；但是老大安排新人先用vue做做业务，熟悉下公司的整个发布流程，所以作为实习生并没有太多机会去接触react的项目，只能在项目间歇期间学习下react，利用博客将自己学习的一些成果记录下来。这是我在看文档的时候，自己动手做的一个小demo，里面涉及到了大部分的基础内容，下面我拆开来一一说明 组件划分">
+<meta name="twitter:image" content="http://otmv3wwxg.bkt.clouddn.com/WX20170803-201820@2x.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/06/03/react入门实战篇（一）/"/>
+
+
+
+
+
+  <title>react入门实战篇（一） | GQ</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">GQ</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/03/react入门实战篇（一）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="光强">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://www.160.com/uploadfiles/20160809/1470724372736479.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="GQ">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">react入门实战篇（一）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-03T20:04:22+08:00">
+                2017-06-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近实习所在部门是为公司移动架构做支持的大前端，所用的技术是react，所以自然而然要掌握react；但是老大安排新人先用vue做做业务，熟悉下公司的整个发布流程，所以作为实习生并没有太多机会去接触react的项目，只能在项目间歇期间学习下react，利用博客将自己学习的一些成果记录下来。<br>这是我在看文档的时候，自己动手做的一个小demo，里面涉及到了大部分的基础内容，下面我拆开来一一说明<br><img src="http://otmv3wwxg.bkt.clouddn.com/WX20170803-201820@2x.png" alt="Alt text"></p>
+<h4 id="组件划分"><a href="#组件划分" class="headerlink" title="组件划分"></a>组件划分</h4><hr>
+<p>在react中一切皆组件，所以做的第一件事情就是理解需求、分析需求、划分这个需求由哪些组件构成。划分组件的目的性是为了代码可复用性、可维护性。只要某个部分有可能复用到别的地方，都可以把它抽离出来当成一个组件；或者把某一部分抽离出来对代码的组织和管理会带来帮助，也可以毫不犹豫地把它抽离出来。</p>
+<p>对于上面这个评论功能，可以粗略地划分成以下几部分：<br><img src="http://otmv3wwxg.bkt.clouddn.com/1.003.png" alt="Alt text"><br><code>CommentApp</code>：评论功能的整体用一个叫 <em>CommentApp</em> 的组件包含起来。<em>CommentApp</em> 包含上部和下部两部分。</p>
+<p><code>CommentInput</code>：上面部分是负责用户输入可操作的输入区域，包括输入评论的用户名、评论内容和发布按钮，这一部分功能划分到一个单独的组件 <em>CommentInput</em> 中。</p>
+<p><code>CommentList</code>：下面部分是评论列表，用一个叫<em>CommentList`</em>的组件负责列表的展示。</p>
+<p><code>Comment</code>：每个评论列表项由独立的组件 <em>Comment</em> 负责显示，这个组件被 <em>CommentList`</em>所使用。</p>
+<p>所以这个评论功能划分成四种组件，<code>CommentApp、CommentInput、CommentList、Comment</code>。用组件树表示：<br><img src="http://otmv3wwxg.bkt.clouddn.com/DAFA784B-6AD3-474B-9A87-316E5741DED6.png" alt="Alt text"><br>现在就可以尝试编写代码了。</p>
+<h4 id="组件实现"><a href="#组件实现" class="headerlink" title="组件实现"></a>组件实现</h4><hr>
+<p>在写代码之前，我们先用 <code>create-react-app</code> 构建一个新的工程目录。所有的评论功能在这个工程内完成：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">create-react-app comment-app</div></pre></td></tr></table></figure></p>
+<p>然后在工程目录下的 <code>src/</code>目录下新建四个文件，每个文件对应的是上述的四个组件。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">src/</div><div class="line">  CommentApp.js</div><div class="line">  CommentInput.js</div><div class="line">  CommentList.js</div><div class="line">  Comment.js</div><div class="line">  ...</div></pre></td></tr></table></figure></p>
+<p>可以看到，这里的文件名的开头是大写字母。遵循一个原则：如果一个文件导出的是一个类，那么这个文件名就用大写开头。四个组件类文件导出都是类，所以都是大写字母开头。</p>
+<p>先铺垫一些基础代码，让组件之间的关系清晰起来。遵循“自顶而下，逐步求精”的原则，从组件的顶层开始，再一步步往下构建组件树。先修改 CommentApp.js 如下：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> React, &#123; Component &#125; <span class="keyword">from</span> <span class="string">'react'</span></div><div class="line"><span class="keyword">import</span> CommentInput <span class="keyword">from</span> <span class="string">'./CommentInput'</span></div><div class="line"><span class="keyword">import</span> CommentList <span class="keyword">from</span> <span class="string">'./CommentList'</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">CommentApp</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</div><div class="line">  render() &#123;</div><div class="line">    <span class="keyword">return</span> (</div><div class="line">      &lt;div&gt;</div><div class="line">        &lt;CommentInput /&gt;</div><div class="line">        &lt;CommentList /&gt;</div><div class="line">      &lt;/div&gt;</div><div class="line">    )</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> CommentApp</div></pre></td></tr></table></figure></p>
+<p><code>CommentApp</code> 现在暂时还很简单，文件顶部引入了 <code>CommentInput</code> 和 <code>CommentList</code> 。然后按照上面的需求，应用在了 <code>CommentApp</code> 返回的 JSX 结构中，上面是用户输入区域，下面是评论列表。</p>
+<p>现在来修改 <code>CommentInput.js</code> 中的内容：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> React, &#123; Component &#125; <span class="keyword">from</span> <span class="string">'react'</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">CommentInput</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</div><div class="line">  render() &#123;</div><div class="line">    <span class="keyword">return</span> (</div><div class="line">      &lt;div&gt;input&lt;/div&gt;</div><div class="line">    )</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> CommentInput</div></pre></td></tr></table></figure></p>
+<p>这里暂时让它只简单返回 <code>&lt;div&gt;</code> 结构，同样地修改 CommentList.js ：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> React, &#123; Component &#125; <span class="keyword">from</span> <span class="string">'react'</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">CommentList</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</div><div class="line">  render() &#123;</div><div class="line">    <span class="keyword">return</span> (</div><div class="line">      &lt;div&gt;CommentList&lt;/div&gt;</div><div class="line">    )</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> CommentList</div></pre></td></tr></table></figure></p>
+<h4 id="添加样式"><a href="#添加样式" class="headerlink" title="添加样式"></a>添加样式</h4><p>现在想让这个结构在浏览器中居中显示，我们就要给 <code>CommentApp</code> 里面的 <code>&lt;div&gt;</code> 添加样式。修改 <code>CommentApp</code> 中的render 方法，给它添加一个 <code>wrapper</code>类名：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">...</div><div class="line">class CommentApp extends Component &#123;</div><div class="line">  render() &#123;</div><div class="line">    <span class="keyword">return</span> (</div><div class="line">      &lt;div className='wrapper'&gt;</div><div class="line">        &lt;CommentInput /&gt;</div><div class="line">        &lt;CommentList /&gt;</div><div class="line">      &lt;/div&gt;</div><div class="line">    )</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">...</div></pre></td></tr></table></figure></p>
+<p>然后在 index.css 文件中添加样式：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.wrapper</span> &#123;</div><div class="line">  <span class="attribute">width</span>: <span class="number">500px</span>;</div><div class="line">  <span class="attribute">margin</span>: <span class="number">10px</span> auto;</div><div class="line">  <span class="attribute">font-size</span>: <span class="number">14px</span>;</div><div class="line">  <span class="attribute">background-color</span>: <span class="number">#fff</span>;</div><div class="line">  <span class="attribute">border</span>: <span class="number">1px</span> solid <span class="number">#f1f1f1</span>;</div><div class="line">  <span class="attribute">padding</span>: <span class="number">20px</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>注：案例的全部样式文件已经写好，在index.css文件中，后续不再一一列出。</strong></p>
+<p>现在可以把这个简单的结构渲染到页面上看看效果，修改 <code>src/index.js</code>：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span></div><div class="line"><span class="keyword">import</span> ReactDOM <span class="keyword">from</span> <span class="string">'react-dom'</span></div><div class="line"><span class="keyword">import</span> CommentApp <span class="keyword">from</span> <span class="string">'./CommentApp'</span></div><div class="line"><span class="keyword">import</span> <span class="string">'./index.css'</span></div><div class="line"></div><div class="line">ReactDOM.render(</div><div class="line">  &lt;CommentApp /&gt;,</div><div class="line">  document.getElementById('root')</div><div class="line">)</div></pre></td></tr></table></figure></p>
+<p>然后进入工程目录启动工程：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm start</div></pre></td></tr></table></figure></p>
+<p>自动弹出浏览器，可以看到，基本的结构已经渲染到了页面上了：<br><img src="http://otmv3wwxg.bkt.clouddn.com/WX20170803-180847@2x.png" alt="Alt text"></p>
+<p>未完。。。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/06/16/alert-a-b-和alert-a-b/" rel="next" title="alert(a&&b)和alert(a||b)">
+                <i class="fa fa-chevron-left"></i> alert(a&&b)和alert(a||b)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/07/react入门实战篇（二）/" rel="prev" title="react入门实战篇（二）">
+                react入门实战篇（二） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://www.160.com/uploadfiles/20160809/1470724372736479.png"
+               alt="光强" />
+          <p class="site-author-name" itemprop="name">光强</p>
+           
+              <p class="site-description motion-element" itemprop="description">心有猛虎，细嗅蔷薇</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#组件划分"><span class="nav-number">1.</span> <span class="nav-text">组件划分</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#组件实现"><span class="nav-number">2.</span> <span class="nav-text">组件实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#添加样式"><span class="nav-number">3.</span> <span class="nav-text">添加样式</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">光强</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
