@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="接下来讲讲如何让CommentList 可以显示评论列表：123456789101112131415161718192021222324// CommentList.jsimport React, &amp;#123; Component &amp;#125; from &apos;react&apos;class CommentList extends Component &amp;#123;  render() &amp;#123;    co">
+<meta property="og:type" content="article">
+<meta property="og:title" content="react入门实战篇（三）">
+<meta property="og:url" content="http://yoursite.com/2017/06/10/react入门实战篇（三）/index.html">
+<meta property="og:site_name" content="GQ">
+<meta property="og:description" content="接下来讲讲如何让CommentList 可以显示评论列表：123456789101112131415161718192021222324// CommentList.jsimport React, &amp;#123; Component &amp;#125; from &apos;react&apos;class CommentList extends Component &amp;#123;  render() &amp;#123;    co">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://otmv3wwxg.bkt.clouddn.com/4EFF52CA-B573-4DBB-A313-8ADD90F65F24.png">
+<meta property="og:image" content="http://otmv3wwxg.bkt.clouddn.com/6A3B65A1-0CEA-4F98-B2E7-DC1D9B4CED83.png">
+<meta property="og:image" content="http://otmv3wwxg.bkt.clouddn.com/62C055E7-F668-4C70-A0C0-B8989A5E3B58.png">
+<meta property="og:updated_time" content="2017-08-09T11:06:00.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="react入门实战篇（三）">
+<meta name="twitter:description" content="接下来讲讲如何让CommentList 可以显示评论列表：123456789101112131415161718192021222324// CommentList.jsimport React, &amp;#123; Component &amp;#125; from &apos;react&apos;class CommentList extends Component &amp;#123;  render() &amp;#123;    co">
+<meta name="twitter:image" content="http://otmv3wwxg.bkt.clouddn.com/4EFF52CA-B573-4DBB-A313-8ADD90F65F24.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/06/10/react入门实战篇（三）/"/>
+
+
+
+
+
+  <title>react入门实战篇（三） | GQ</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">GQ</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/10/react入门实战篇（三）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="光强">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://www.160.com/uploadfiles/20160809/1470724372736479.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="GQ">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">react入门实战篇（三）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-10T20:47:44+08:00">
+                2017-06-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>接下来讲讲如何让<code>CommentList</code> 可以显示评论列表：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// CommentList.js</span></div><div class="line"><span class="keyword">import</span> React, &#123; Component &#125; <span class="keyword">from</span> <span class="string">'react'</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">CommentList</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</div><div class="line">  render() &#123;</div><div class="line">    <span class="keyword">const</span> comments = [</div><div class="line">      &#123;<span class="attr">username</span>: <span class="string">'Jerry'</span>, <span class="attr">content</span>: <span class="string">'Hello'</span>&#125;,</div><div class="line">      &#123;<span class="attr">username</span>: <span class="string">'Tomy'</span>, <span class="attr">content</span>: <span class="string">'World'</span>&#125;,</div><div class="line">      &#123;<span class="attr">username</span>: <span class="string">'Lucy'</span>, <span class="attr">content</span>: <span class="string">'Good'</span>&#125;</div><div class="line">    ]</div><div class="line"></div><div class="line">    <span class="keyword">return</span> (</div><div class="line">      &lt;div&gt;&#123;comments.map((comment, i) =&gt; &#123;</div><div class="line">        return (</div><div class="line">          &lt;div key=&#123;i&#125;&gt;</div><div class="line">            &#123;comment.username&#125;：&#123;comment.content&#125;</div><div class="line">          &lt;/div&gt;</div><div class="line">        )</div><div class="line">      &#125;)&#125;&lt;/div&gt;</div><div class="line">    )</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> CommentList</div></pre></td></tr></table></figure></p>
+<p>这里的代码只是建立了一个 comments 的数组来存放一些测试数据的内容，然后把 comments 的数据渲染到页面上，使用 map 构建一个数组，用来存放 JSX 。可以在浏览器看到效果：<br><img src="http://otmv3wwxg.bkt.clouddn.com/4EFF52CA-B573-4DBB-A313-8ADD90F65F24.png" alt="Alt text"><br>修改 <code>Comment.js</code> 让它来负责具体每条评论内容的渲染：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> React, &#123; Component &#125; <span class="keyword">from</span> <span class="string">'react'</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Comment</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</div><div class="line">  render () &#123;</div><div class="line">    <span class="keyword">return</span> (</div><div class="line">      &lt;div className='comment'&gt;</div><div class="line">        &lt;div className='comment-user'&gt;</div><div class="line">          &lt;span&gt;&#123;this.props.comment.username&#125; &lt;/span&gt;：</div><div class="line">        &lt;/div&gt;</div><div class="line">        &lt;p&gt;&#123;this.props.comment.content&#125;&lt;/p&gt;</div><div class="line">      &lt;/div&gt;</div><div class="line">    )</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> Comment</div></pre></td></tr></table></figure></p>
+<p>这个组件只负责每条评论的具体显示。只需要给它的 <code>props</code> 中传入一个 <code>comment</code> 对象，它就会把该对象中的 <code>username</code> 和 <code>content</code> 渲染到页面上。</p>
+<p>马上把 <code>Comment</code> 应用到 <code>CommentList</code> 当中，修改 <code>CommentList.js</code> 代码：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> React, &#123; Component &#125; <span class="keyword">from</span> <span class="string">'react'</span></div><div class="line"><span class="keyword">import</span> Comment <span class="keyword">from</span> <span class="string">'./Comment'</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">CommentList</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</div><div class="line">  render() &#123;</div><div class="line">    <span class="keyword">const</span> comments = [</div><div class="line">      &#123;<span class="attr">username</span>: <span class="string">'Jerry'</span>, <span class="attr">content</span>: <span class="string">'Hello'</span>&#125;,</div><div class="line">      &#123;<span class="attr">username</span>: <span class="string">'Tomy'</span>, <span class="attr">content</span>: <span class="string">'World'</span>&#125;,</div><div class="line">      &#123;<span class="attr">username</span>: <span class="string">'Lucy'</span>, <span class="attr">content</span>: <span class="string">'Good'</span>&#125;</div><div class="line">    ]</div><div class="line"></div><div class="line">    <span class="keyword">return</span> (</div><div class="line">      &lt;div&gt;</div><div class="line">        &#123;comments.map((comment, i) =&gt; &lt;Comment comment=&#123;comment&#125; key=&#123;i&#125; /&gt;)&#125;</div><div class="line">      &lt;/div&gt;</div><div class="line">    )</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">export default CommentList</div></pre></td></tr></table></figure></p>
+<p>可以看到测试数据显示到了页面上：<br><img src="http://otmv3wwxg.bkt.clouddn.com/6A3B65A1-0CEA-4F98-B2E7-DC1D9B4CED83.png" alt="Alt text"></p>
+<p>之前说过 <code>CommentList</code> 的数据应该是由父组件 <code>CommentApp</code> 传进来的，现在我们删除测试数据，改成从 <code>props</code> 获取评论数据：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> React, &#123; Component &#125; <span class="keyword">from</span> <span class="string">'react'</span></div><div class="line"><span class="keyword">import</span> Comment <span class="keyword">from</span> <span class="string">'./Comment'</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">CommentList</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</div><div class="line">  render() &#123;</div><div class="line">    <span class="keyword">return</span> (</div><div class="line">      &lt;div&gt;</div><div class="line">        &#123;this.props.comments.map((comment, i) =&gt;</div><div class="line">          &lt;Comment comment=&#123;comment&#125; key=&#123;i&#125; /&gt;</div><div class="line">        )&#125;</div><div class="line">      &lt;/div&gt;</div><div class="line">    )</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">export default CommentList</div></pre></td></tr></table></figure></p>
+<p>这样在浏览器运行一下，发现是有报错的，这是因为<code>CommentApp</code> 使用 <code>CommentList</code> 的时候并没有传入 <code>comments</code>。只需给<code>CommentList</code> 加上 <code>defaultProps</code> 防止 <code>comments</code> 没有传入的情况：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">CommentList</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</div><div class="line">  <span class="keyword">static</span> defaultProps = &#123;</div><div class="line">    <span class="attr">comments</span>: []</div><div class="line">  &#125;</div><div class="line">...</div></pre></td></tr></table></figure></p>
+<p>这时候代码就不报错了。但是 <code>CommentInput</code> 给 <code>CommentApp</code> 传递的评论数据并没有传递给 <code>CommentList</code>，所以现在发表评论时没有反应的。</p>
+<p>所以先在在<code>CommentApp</code> 的 state 中初始化一个数组，来保存所有的评论数据，并且通过 <code>props</code> 把它传递给 <code>CommentList</code>。修改 <code>CommentApp.js</code>：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> React, &#123; Component &#125; <span class="keyword">from</span> <span class="string">'react'</span></div><div class="line"><span class="keyword">import</span> CommentInput <span class="keyword">from</span> <span class="string">'./CommentInput'</span></div><div class="line"><span class="keyword">import</span> CommentList <span class="keyword">from</span> <span class="string">'./CommentList'</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">CommentApp</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</div><div class="line">  <span class="keyword">constructor</span> () &#123;</div><div class="line">    <span class="keyword">super</span>()</div><div class="line">    <span class="keyword">this</span>.state = &#123;</div><div class="line">      <span class="attr">comments</span>: []</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  handleSubmitComment (comment) &#123;</div><div class="line">    <span class="built_in">console</span>.log(comment)</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  render() &#123;</div><div class="line">    <span class="keyword">return</span> (</div><div class="line">      &lt;div className='wrapper'&gt;</div><div class="line">        &lt;CommentInput onSubmit=&#123;this.handleSubmitComment.bind(this)&#125; /&gt;</div><div class="line">        &lt;CommentList comments=&#123;this.state.comments&#125;/&gt;</div><div class="line">      &lt;/div&gt;</div><div class="line">    )</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">export default CommentApp</div></pre></td></tr></table></figure></p>
+<p>接下来，修改 <code>handleSubmitComment</code> ：每当用户发布评论的时候，就把评论数据插入 <code>this.state.comments</code> 中，然后通过 <code>setState</code> 把数据更新到页面上：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">...</div><div class="line">  handleSubmitComment (comment) &#123;</div><div class="line">    <span class="keyword">this</span>.state.comments.push(comment)</div><div class="line">    <span class="keyword">this</span>.setState(&#123;</div><div class="line">      <span class="attr">comments</span>: <span class="keyword">this</span>.state.comments</div><div class="line">    &#125;)</div><div class="line">  &#125;</div><div class="line">...</div></pre></td></tr></table></figure></p>
+<p>现在浏览器运行一下，输入用户名和评论内容，然后点击发布：<br><img src="http://otmv3wwxg.bkt.clouddn.com/62C055E7-F668-4C70-A0C0-B8989A5E3B58.png" alt="Alt text"></p>
+<p> 可以看到应用可以正常运行，完成初步的需求了！<br> 为了增强体验，加入校验的功能：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">...</div><div class="line">  handleSubmitComment (comment) &#123;</div><div class="line">    <span class="keyword">if</span> (!comment) <span class="keyword">return</span></div><div class="line">    <span class="keyword">if</span> (!comment.username) <span class="keyword">return</span> alert(<span class="string">'请输入用户名'</span>)</div><div class="line">    <span class="keyword">if</span> (!comment.content) <span class="keyword">return</span> alert(<span class="string">'请输入评论内容'</span>)</div><div class="line">    <span class="keyword">this</span>.state.comments.push(comment)</div><div class="line">    <span class="keyword">this</span>.setState(&#123;</div><div class="line">      <span class="attr">comments</span>: <span class="keyword">this</span>.state.comments</div><div class="line">    &#125;)</div><div class="line">  &#125;</div><div class="line">...</div></pre></td></tr></table></figure></p>
+<p>目前为止，整个应用初步的功能就完成了，当然功能很简单，但是大概包括了react的基础知识。后续再尝试加入react-redux来重新构建这个应用。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/07/react入门实战篇（二）/" rel="next" title="react入门实战篇（二）">
+                <i class="fa fa-chevron-left"></i> react入门实战篇（二）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/07/24/import-require/" rel="prev" title="import & require">
+                import & require <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://www.160.com/uploadfiles/20160809/1470724372736479.png"
+               alt="光强" />
+          <p class="site-author-name" itemprop="name">光强</p>
+           
+              <p class="site-description motion-element" itemprop="description">心有猛虎，细嗅蔷薇</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">光强</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
