@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="学习react，必然免不了要接触react-redux，react只是一个view层面的解决方案，在实际的项目开发当中，还涉及到各种数据的交互，那么就需要用到react-redux来处理这些问题。下面我将react-redux涉及到主要知识点分开来阐述。 高阶组件 第一次看到这个词就心生畏惧了，看着很腻害的样子，但其实看完之后会发现它的概念是很简单的。在前端的业务开发当中，不掌握高阶组件其实也可以">
+<meta property="og:type" content="article">
+<meta property="og:title" content="谈谈我对react-redux中connect的理解">
+<meta property="og:url" content="http://yoursite.com/2017/06/14/谈谈我对react-redux中connect的理解/index.html">
+<meta property="og:site_name" content="GQ">
+<meta property="og:description" content="学习react，必然免不了要接触react-redux，react只是一个view层面的解决方案，在实际的项目开发当中，还涉及到各种数据的交互，那么就需要用到react-redux来处理这些问题。下面我将react-redux涉及到主要知识点分开来阐述。 高阶组件 第一次看到这个词就心生畏惧了，看着很腻害的样子，但其实看完之后会发现它的概念是很简单的。在前端的业务开发当中，不掌握高阶组件其实也可以">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://otmv3wwxg.bkt.clouddn.com/85C81DFF-F71E-4B2B-9BAB-AF285F3DB1DB.png">
+<meta property="og:updated_time" content="2017-08-10T12:03:42.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="谈谈我对react-redux中connect的理解">
+<meta name="twitter:description" content="学习react，必然免不了要接触react-redux，react只是一个view层面的解决方案，在实际的项目开发当中，还涉及到各种数据的交互，那么就需要用到react-redux来处理这些问题。下面我将react-redux涉及到主要知识点分开来阐述。 高阶组件 第一次看到这个词就心生畏惧了，看着很腻害的样子，但其实看完之后会发现它的概念是很简单的。在前端的业务开发当中，不掌握高阶组件其实也可以">
+<meta name="twitter:image" content="http://otmv3wwxg.bkt.clouddn.com/85C81DFF-F71E-4B2B-9BAB-AF285F3DB1DB.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/06/14/谈谈我对react-redux中connect的理解/"/>
+
+
+
+
+
+  <title>谈谈我对react-redux中connect的理解 | GQ</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">GQ</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/14/谈谈我对react-redux中connect的理解/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="光强">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://www.160.com/uploadfiles/20160809/1470724372736479.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="GQ">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">谈谈我对react-redux中connect的理解</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-14T20:07:32+08:00">
+                2017-06-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>学习react，必然免不了要接触react-redux，react只是一个view层面的解决方案，在实际的项目开发当中，还涉及到各种数据的交互，那么就需要用到react-redux来处理这些问题。下面我将react-redux涉及到主要知识点分开来阐述。</p>
+<h3 id="高阶组件"><a href="#高阶组件" class="headerlink" title="高阶组件"></a>高阶组件</h3><hr>
+<p>第一次看到这个词就心生畏惧了，看着很腻害的样子，但其实看完之后会发现它的概念是很简单的。在前端的业务开发当中，不掌握高阶组件其实也可以完成项目的开发，但是如果能够灵活地使用高阶组件，可以让你代码更加优雅，复用性、灵活性更强。它是一个加分项，而且加的分还不少。了解高阶组件对我们再去理解各种 React.js 第三方库（比如react-redux）的原理很有帮助。</p>
+<h5 id="什么是高阶组件"><a href="#什么是高阶组件" class="headerlink" title="什么是高阶组件"></a>什么是高阶组件</h5><blockquote>
+<p>高阶组件就是一个函数，传给它一个组件，它返回一个新的组件。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> NewComponent = higherOrderComponent(OldComponent)</div></pre></td></tr></table></figure>
+<p>高阶组件其实就是一个函数，并不是像它名字那样是一个组件。它接受一个组件作为参数，返回一个新的组件。这个新的组件会以我们传进去的组件为子组件。看个栗子：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> React, &#123; Component &#125; <span class="keyword">from</span> <span class="string">'react'</span></div><div class="line"></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> (WrappedComponent) =&gt; &#123;</div><div class="line">  <span class="class"><span class="keyword">class</span> <span class="title">NewComponent</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</div><div class="line">    <span class="comment">// 可以做很多自定义逻辑</span></div><div class="line">    render () &#123;</div><div class="line">      <span class="keyword">return</span> &lt;WrappedComponent /&gt;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  return NewComponent</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>好像没有什么用，它就是简单的构建了一个新的组件类 <code>NewComponent</code>，然后把传进入去的 <code>WrappedComponent</code> 渲染出来。但是我们可以给 <code>NewCompoent</code> 做一些数据启动工作：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> React, &#123; Component &#125; <span class="keyword">from</span> <span class="string">'react'</span></div><div class="line"></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> (WrappedComponent, name) =&gt; &#123;</div><div class="line">  <span class="class"><span class="keyword">class</span> <span class="title">NewComponent</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</div><div class="line">    <span class="keyword">constructor</span> () &#123;</div><div class="line">      <span class="keyword">super</span>()</div><div class="line">      <span class="keyword">this</span>.state = &#123; <span class="attr">data</span>: <span class="literal">null</span> &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    componentWillMount () &#123;</div><div class="line">      <span class="keyword">let</span> data = localStorage.getItem(name)</div><div class="line">      <span class="keyword">this</span>.setState(&#123; data &#125;)</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    render () &#123;</div><div class="line">      <span class="keyword">return</span> &lt;WrappedComponent data=&#123;this.state.data&#125; /&gt;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  return NewComponent</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这里其实是用到前面react实战篇里面的例子，在本地缓存中读取数据。</p>
+<p>现在 <code>NewComponent</code> 会根据第二个参数 <code>name</code> 在挂载阶段从 <code>LocalStorage</code> 加载数据，并且 <code>setState</code> 到自己的 <code>state.data</code> 中，而渲染的时候将 <code>state.data</code> 通过 <code>props.data</code> 传给 <code>WrappedComponent</code>。</p>
+<p>这个高阶组件有什么用呢？假设上面的代码是在 <code>src/wrapWithLoadData.js</code> 文件中的，我们可以在别的地方这么用它：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> wrapWithLoadData <span class="keyword">from</span> <span class="string">'./wrapWithLoadData'</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">InputWithUserName</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</div><div class="line">  render () &#123;</div><div class="line">    <span class="keyword">return</span> &lt;input value=&#123;this.props.data&#125; /&gt;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">InputWithUserName = wrapWithLoadData(InputWithUserName, 'username')</div><div class="line">export default InputWithUserName</div></pre></td></tr></table></figure></p>
+<p>假如 <code>InputWithUserName</code> 的功能需求是挂载的时候从 <code>LocalStorage</code> 里面加载 <code>username</code> 字段作为 <code>&lt;input /&gt;</code> 的 value 值，现在有了 <code>wrapWithLoadData</code>，我们可以很容易地做到这件事情。</p>
+<p>只需要定义一个非常简单的 <code>InputWithUserName</code>，它会把 <code>props.data</code> 作为 <code>&lt;input /&gt;</code> 的 <code>value</code> 值。然把这个组件和 <code>&#39;username&#39;</code>传给 <code>wrapWithLoadData</code>，<code>wrapWithLoadData</code> 会返回一个新的组件，我们用这个新的组件覆盖原来的 <code>InputWithUserName</code>，然后再导出去模块。</p>
+<p>别人用这个组件的时候实际是用了被加工过的组件：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> InputWithUserName <span class="keyword">from</span> <span class="string">'./InputWithUserName'</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Index</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</div><div class="line">  render () &#123;</div><div class="line">    <span class="keyword">return</span> (</div><div class="line">      &lt;div&gt;</div><div class="line">        用户名：&lt;InputWithUserName /&gt;</div><div class="line">      &lt;/div&gt;</div><div class="line">    )</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>根据 <code>wrapWithLoadData</code> 的代码我们可以知道，这个新的组件挂载的时候会先去 <code>LocalStorage</code> 加载数据，渲染的时候再通过 <code>props.data</code> 传给真正的 <code>InputWithUserName</code>。</p>
+<p>如果现在我们需要另外一个文本输入框组件，它也需要 <code>LocalStorage</code> 加载 <code>&#39;content&#39;</code> 字段的数据。我们只需要定义一个新的 <code>TextareaWithContent</code>：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> wrapWithLoadData <span class="keyword">from</span> <span class="string">'./wrapWithLoadData'</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">TextareaWithContent</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</div><div class="line">  render () &#123;</div><div class="line">    <span class="keyword">return</span> &lt;textarea value=&#123;this.props.data&#125; /&gt;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">TextareaWithContent = wrapWithLoadData(TextareaWithContent, 'content')</div><div class="line">export default TextareaWithContent</div></pre></td></tr></table></figure></p>
+<p>写起来非常轻松，我们根本不需要重复写从 <code>LocalStorage</code> 加载数据字段的逻辑，直接用 <code>wrapWithLoadData</code> 包装一下就可以了。</p>
+<p>我们来回顾一下到底发生了什么事情，对于 <code>InputWithUserName</code>和 <code>TextareaWithContent</code> 这两个组件来说，它们的需求有着这么一个相同的逻辑：“挂载阶段从 <code>LocalStorage</code> 中加载特定字段数据”。</p>
+<p>如果按照之前的做法，我们需要给它们两个都加上 <code>componentWillMount</code> 生命周期，然后在里面调用 <code>LocalStorage</code>。要是有第三个组件也有这样的加载逻辑，我又得写一遍这样的逻辑。但有了 <code>wrapWithLoadData</code> 高阶组件，我们把这样的逻辑用一个组件包裹了起来，并且通过给高阶组件传入 <code>name</code> 来达到不同字段的数据加载。充分复用了逻辑代码。</p>
+<p>到这里，高阶组件的作用其实不言而喻，其实就是为了组件之间的代码复用。组件可能有着某些相同的逻辑，把这些逻辑抽离出来，放到高阶组件中进行复用。高阶组件内部的包装组件和被包装组件之间通过 <code>props</code> 传递数据。后面还有多层高阶组件的概念，其实大致思路都一样，就不单独说了。</p>
+<h3 id="context"><a href="#context" class="headerlink" title="context"></a>context</h3><hr>
+<p>react.js中还有一个context的概念，这个特性就像javaScript中的全局变量，它是react.js的组件树中的某个子树的全局变量。</p>
+<p>想象一下我们有这么一棵组件树：<br><img src="http://otmv3wwxg.bkt.clouddn.com/85C81DFF-F71E-4B2B-9BAB-AF285F3DB1DB.png" alt="Alt text"></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/10/react入门实战篇（三）/" rel="next" title="react入门实战篇（三）">
+                <i class="fa fa-chevron-left"></i> react入门实战篇（三）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/07/24/import-require/" rel="prev" title="import & require">
+                import & require <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://www.160.com/uploadfiles/20160809/1470724372736479.png"
+               alt="光强" />
+          <p class="site-author-name" itemprop="name">光强</p>
+           
+              <p class="site-description motion-element" itemprop="description">心有猛虎，细嗅蔷薇</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#高阶组件"><span class="nav-number">1.</span> <span class="nav-text">高阶组件</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#什么是高阶组件"><span class="nav-number">1.0.1.</span> <span class="nav-text">什么是高阶组件</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#context"><span class="nav-number">2.</span> <span class="nav-text">context</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">光强</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
